@@ -62,7 +62,7 @@ Node* MergeTwoSortedLists(Node* head1, Node* head2) {
     head->next = curr_list2;
   }
 
-  return head;
+  return result;
 }
 
 int main() {
