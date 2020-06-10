@@ -1,44 +1,50 @@
 #include <iostream>
+#include <cmath>
 
-int GetNumDigit(const int value, const int cnt) {
-  if (cnt < 0) {
-    return -1;
+int GetDigitsSum(const int digits) {
+  if (digits == 1) {
+    return 10;
   }
-  for (int i = 0)
 
-  while ()
+  return 9 * std::pow(10, digits - 1);
 }
 
-
-int GetDigitsMax(const int digit) {
-  if (digit < 1) {
+int GetDigitsStart(const int digits) {
+  if (digits == 1) {
     return 0;
   }
 
-  return 9 * std::pow(10, digit - 1);
+  return std::pow(10, digits - 1);
 }
 
-int DigitInSerail(const int num) {
+int GetNumDigits(int num, int digits) {
+  int target_num = GetDigitsStart(digits) + num / digits;
+  int digit_right = digits - num % digits;
+
+  while (digit_right > 1) {
+    target_num /= 10;
+  }
+  return target_num % 10;
+}
+
+int GetDigitInStream(int num) {
   if (num < 0) {
     return -1;
   }
 
-  int digit = 1;
-  int sum = 0;
-  for (; sum < num; ++digit) {
-    sum += GetDigitsMax(digit);
+  int digits = 1;
+  while (true) {
+    int digits_sum = GetDigitsSum(digits);
+    if (num < digits_sum) {
+      return GetNumDigits(num, digits);
+    }
+    digits ++;
+    num -= digits_sum;
   }
+}
 
-  int value = i * std::pow(10, digit -1) + 
-              (num - (sum - GetDigitsMax(digit))) / digit;
-  int cnt = (num - (sum - GetDigitsMax(digit))) % digit;
-
-  if (cnt == 0) {
-    return value % 10;
-  } 
-
-  value ++;
-  while ()
-  return value / std::pow(10, cnt)
-  return GetNumDigit(value + 1, cnt);
+int main() {
+  std::cout << "5: " << GetDigitInStream(5) << std::endl;
+  std::cout << "13: " << GetDigitInStream(13) << std::endl;
+  std::cout << "19: " << GetDigitInStream(19) << std::endl;
 }
