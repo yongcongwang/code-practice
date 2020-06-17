@@ -4,8 +4,11 @@
 
 std::size_t TransNumberToString(const std::size_t num) {
   const std::string num_str = std::to_string(num);
-
   const std::size_t length(num_str.size());
+  if (lenght < 2) {
+    return 1;
+  }
+
   std::array<length + 1, int> sum(length + 1, 0);
   sum[length - 1] = 1;
   for (std::size_t i = length - 2; i >= 0; --i) {
