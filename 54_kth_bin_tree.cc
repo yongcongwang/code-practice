@@ -9,17 +9,24 @@ struct Node {
 };
 
 const Node* KthNodeRecurse(const Node* root, int& k) {
-  const Node* target = root->left == nullptr ? 
-                                     root : KthNodeRecurse(root->left, k) ;
-  if (k == 1) {
-    return target;
+  if (root == nullptr) {
+    return nullptr;
   }
-  k--;
 
-  if (root->right != nullptr) {
-    target = KthNodeRecurse(root->right, k);
-    return k == 1 ? target : nullptr;
+  const Node* target = KthNodeRecurse(root->left, k);
+
+  if (k == 1) {
+    if (target != nullptr) {
+      return target;
+    }
+
+    return root;
   }
+
+  k--;
+  target = KthNodeRecurse(root->right, k);
+
+  return k == 1 && target != nullptr ? target : nullptr;
 }
 
 const Node* KthNode(const Node* root, int num) {
