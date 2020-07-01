@@ -3,8 +3,8 @@
 
 int FirstOneDigit(int num) {
   int result(0);
-  while(num & 1 == 0 && result < 8 * sizeof(int)) {
-    num >> 1;
+  while((num & 1) == 0 && result < 8 * sizeof(int)) {
+    num = num >> 1;
     result++;
   }
 
