@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 #include <algorithm>
 
 template <typename Object>
@@ -59,16 +60,22 @@ class Vector {
     }
 
     capacity_ = new_capacity;
-    std::swap(objects, new_array);
+    std::swap(objects_, new_array);
     delete[] new_array;
   }
 
   Object& operator[](int index) {
-    return objects_[index];  // TODO: input check
+    if (index < 0 || size_ == 0 || index >= size_) {
+      throw std::out_of_range("invalid index!");
+    }
+    return objects_[index];
   }
 
   const Object& operator[](int index) const {
-    return objects_[index];  // TODO: input check
+    if (index < 0 || size_ == 0 || index >= size_) {
+      throw std::out_of_range("invalid index!");
+    }
+    return objects_[index];
   }
 
   bool empty() const {
@@ -106,11 +113,17 @@ class Vector {
   }
 
   const Object& back() const {
-    return objects_[size_ - 1];  // TODO: empty check
+    if (size_ == 0) {
+      throw std::out_of_range("invalid index!");
+    }
+    return objects_[size_ - 1];
   }
 
   const Object& front() const {
-    return objects_[0];  // TODO: empty check
+    if (size_ == 0) {
+      throw std::out_of_range("invalid index!");
+    }
+    return objects_[0];
   }
 
  public:
@@ -118,18 +131,18 @@ class Vector {
   typedef const Object* const_iterator;
 
   iterator begin() {
-    return &object[0];
+    return &objects_[0];
   }
 
   const_iterator begin() const {
-    return &object[0];
+    return &objects_[0];
   }
 
   iterator end() {
-    return &object[size_];
+    return &objects_[size_];
   }
   const_iterator end() const {
-    return &object[size_];
+    return &objects_[size_];
   }
 
  private:
@@ -137,3 +150,33 @@ class Vector {
   int capacity_;
   Object* objects_;
 };
+
+int main() {
+  Vector<double> my_vector1;
+  for (int i = 0; i < 10; ++i) {
+    my_vector1.push_back(static_cast<double>(i));
+  }
+
+  Vector<double> my_vector2(my_vector1);
+  Vector<double> my_vector3 = my_vector2;
+  Vector<double> my_vector4(std::move(my_vector3));
+  Vector<double> my_vector5 = std::move(my_vector4);
+
+  my_vector1.resize(5);
+  std::cout << "my_vector_size: " << my_vector1.size() << std::endl;
+  my_vector1.reserve(25);
+  std::cout << "my_vector_size: " << my_vector1.size() << std::endl;
+  std::cout << "my_vector_capacity: " << my_vector1.capacity() << std::endl;
+  std::cout << "my_vector_empty: " << my_vector1.empty() << std::endl;
+  for (int i = 0; i < 5; ++i) {
+    my_vector1.push_back(std::move(my_vector5[i + 3]));
+  }
+  std::cout << "my_vector_front: " << my_vector1.front() << std::endl;
+  std::cout << "my_vector_back: " << my_vector1.back() << std::endl;
+
+  Vector<double>::iterator it = my_vector1.begin();
+  while (it != my_vector1.end()) {
+    std::cout << "," << *it << std::endl;
+    it++;
+  }
+}
