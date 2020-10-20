@@ -279,9 +279,10 @@ int main() {
 
   auto itr = list1.begin();
   itr++;
-  list1.erase(it);
+  list1.erase(itr);
   while (itr != list1.end()) {
     std::cout << "list1: " << *itr << std::endl;
+    ++itr;
   }
 
   return 0;
