@@ -18,13 +18,13 @@ class BinarySearchTree {
     if (is_empty()) {
       throw std::bad_exception();
     }
-    return find_min()->val;
+    return find_min(root)->val;
   }
   const Comparable& find_max() const {
     if (is_empty()) {
       throw std::bad_exception();
     }
-    return find_max()->val;
+    return find_max(root)->val;
   }
   bool contains(const Comparable& ele) const {
     return contains(ele, root);
@@ -90,7 +90,7 @@ class BinarySearchTree {
     if (t->right == nullptr) {
       return t;
     }
-    return find_max(t->left);
+    return find_max(t->right);
   }
   bool contains(const Comparable& ele, BinaryNode* t) const {
     if (t == nullptr) {
@@ -179,5 +179,19 @@ class BinarySearchTree {
 };
 
 int main() {
-  BinarySearchTree bst;
+  BinarySearchTree<int> bst;
+  bst.insert(3);
+  bst.insert(5);
+  bst.insert(7);
+  bst.insert(9);
+  bst.insert(1);
+  bst.insert(4);
+  bst.print_tree();
+  std::cout << "min:" << bst.find_min() << std::endl;
+  std::cout << "max:" << bst.find_max() << std::endl;
+  std::cout << "contain 2:" << bst.contains(2) << std::endl;
+  std::cout << "contain 3:" << bst.contains(3) << std::endl;
+  std::cout << "empty():" << bst.is_empty() << std::endl;
+  bst.make_empty();
+  std::cout << "empty():" << bst.is_empty() << std::endl;
 }
