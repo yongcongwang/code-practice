@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <exception>
 
 template <typename Comparable>
@@ -32,9 +33,9 @@ class BinarySearchTree {
     return root == nullptr;
   }
   void print_tree() const {
-    std::ostream out;
+    std::ostringstream out;
     print_tree(root, out, 0);
-    std::cout << out;
+    std::cout << out.str();
   }
 
   void insert(const Comparable& ele) {
@@ -98,13 +99,14 @@ class BinarySearchTree {
     if (ele < t->val) {
       return contains(ele, t->left);
     }
-    if (ele > t_>val) {
+    if (ele > t->val) {
       return contains(ele, t->right);
     }
 
     return true;
   }
-  void print_tree(BinaryNode* t, std::ostream& out, std::size_t cnt) const {
+  void print_tree(BinaryNode* t, std::ostringstream& out,
+                  std::size_t cnt) const {
     if (t == nullptr) {
       return;
     }
@@ -175,3 +177,7 @@ class BinarySearchTree {
  private:
   BinaryNode* root = nullptr;
 };
+
+int main() {
+  BinarySearchTree bst;
+}
